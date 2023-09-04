@@ -34,7 +34,7 @@ class RVcard extends HTMLElement {
         `;
     }
     static getStubConfig() {
-        return { entity: "sun.sun" }
+        return { entity: "camera.192_168_51_109" }
     }
 }
 
