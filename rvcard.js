@@ -21,8 +21,9 @@ class RVcard extends HTMLElement {
                 <ha-card header="Hello ${hass.user.name}!">
                     <div class="card-content"></div>
                     <video width="320" height="240" controls>
-                        <source src="rtspUrl: rtsp://192.168.51.109:8554/a2_front_door" type="video/mp4">
+                        <source src=${"entity"}>
                     </video>
+
                 </ha-card>
             `;
             this.content = this.querySelector('div');
