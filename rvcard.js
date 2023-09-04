@@ -20,9 +20,9 @@ class RVcard extends HTMLElement {
             this.innerHTML = `
                 <ha-card header="Hello ${hass.user.name}!">
                     <div class="card-content"></div>
-                    // <video width="320" height="240" controls>
-                    //     <source src=${'entity: "camera.192_168_51_109"'} type="video/mp4">
-                    // </video>
+                    <video width="320" height="240" controls>
+                        <source src=${'entity: "camera.192_168_51_109"'} type="video/mp4">
+                    </video>
 
                     // <video width="320" height="240" controls>
                     //     <source src="/api/camera_proxy/camera.192_168_51_109" type="video/mp4">
@@ -40,12 +40,12 @@ class RVcard extends HTMLElement {
         this.content.innerHTML = `
             <p>The ${entityId} is ${stateStr}.</p>
             <video width="320" height="240" controls>
-                <source src="${this.getStubConfig().entity}" type="video/mp4">
+                <source src="${state.attributes.entity_id}" type="application/vnd.apple.mpegurl">
             </video>
         `;
     }
     static getStubConfig() {
-        return { entity: "camera.192_168_51_109" }
+        return { entity: "sun.sun" }
     }
 }
 
