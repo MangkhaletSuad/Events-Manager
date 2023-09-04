@@ -10,6 +10,25 @@ class RVcard extends HTMLElement {
         this.config = config;
     }
 
+    _currentResource() {
+        return this._getResource(this.currentResourceIndex);
+    }
+
+    _getResource(index) {
+        if (this.resources !== undefined && index !== undefined && this.resources.length > 0) {
+          return this.resources[index];
+        }
+        else {
+          return {
+            url: "",
+            name: "",
+            extension: "jpg",
+            caption: index === undefined ? "Loading resources..." : "No images or videos to display",
+            index: 0
+          };
+        }
+      }
+
     _popupCamera(evt) {
         const event = new Event("hass-more-info", {
           bubbles: true,
@@ -18,16 +37,6 @@ class RVcard extends HTMLElement {
         event.detail = {entityId: this._currentResource().name};
         this.dispatchEvent(event);
     }
-
-    _currentResource() {
-        return this._getResource(this.currentResourceIndex);
-    }
-
-    _getResource(index) {
-        if (this.resources !== undefined && index !== undefined && this.resources.length > 0) {
-          return this.resources[index];
-    }
-
 
     set hass(hass) {
         this._hass = hass;
