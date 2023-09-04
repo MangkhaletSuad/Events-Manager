@@ -65,9 +65,9 @@ class RVcard extends HTMLElement {
             </video>
         `;
     }
-    static getStubConfig() {
-        return { entity: "sun.sun" }
-    }
+    // static getStubConfig() {
+    //     return { entity: "sun.sun" }
+    // }
 }
 
 
