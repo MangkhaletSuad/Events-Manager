@@ -21,7 +21,7 @@ class RVcard extends HTMLElement {
                 <ha-card header="Hello ${hass.user.name}!">
                     <div class="card-content"></div>
                     <video width="320" height="240" controls>
-                        <source src=${"entity"}>
+                        <source src=${'entity: "camera.192_168_51_109"'}>
                     </video>
 
                 </ha-card>
