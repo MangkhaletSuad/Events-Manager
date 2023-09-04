@@ -1,6 +1,18 @@
 import { LitElement, html, css } from 'lit-element';
 
 class RVcard extends HTMLElement {
+    static styles = css`
+    .content {
+        overflow: hidden;
+      }
+      .content hui-card-preview {
+        max-width: 100%;
+      }
+      ha-card {
+        height: 100%;
+        overflow: hidden;
+      }
+  `;
     render() {
         return html`
           <ha-card header="Hello user ${hass.user.name}">
