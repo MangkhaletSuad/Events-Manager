@@ -1,26 +1,13 @@
 class RVcard extends HTMLElement {
-    // private properties
-    _config;
-    _hass;
-    _elements = {};
+    config;
+    content;
 
-    // lifecycle
-    constructor() {
-        super();
-        this.doCard();
-        this.doStyle();
-        this.doAttach();
-        this.doQueryElements();
-        this.doListen();
-    }
-
-    // required
     setConfig(config) {
-        this._config = config;
-        this.doCheckConfig();
-        this.doUpdateConfig();
+        if (!config.entity) {
+            throw new Error('Please define an entity!');
+        }
+        this.config = config;
     }
-
 
     set hass(hass) {
         const entityId = this.config.entity;
@@ -32,7 +19,7 @@ class RVcard extends HTMLElement {
             // user makes sense here as every login gets it's own instance
             this.innerHTML = `
                 <ha-card header="Hello ${hass.user.name}!">
-                    <div class="card-content" ${hass.entity.camera}></div>
+                    <div class="card-content"></div>
                     <video width="320" height="240" controls>
                         <source src="rtspUrl: rtsp://192.168.51.109:8554/a2_front_door" type="video/mp4">
                     </video>
@@ -45,7 +32,12 @@ class RVcard extends HTMLElement {
             <p>The ${entityId} is ${stateStr}.</p>
         `;
     }
+    static getStubConfig() {
+        return { entity: "sun.sun" }
+    }
 }
+
+
 
 customElements.define("rv-card", RVcard);
 
