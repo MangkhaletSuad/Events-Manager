@@ -21,7 +21,13 @@ class RVcard extends HTMLElement {
 
     _currentResource() {
         return this._getResource(this.currentResourceIndex);
-      }
+    }
+
+    _getResource(index) {
+        if (this.resources !== undefined && index !== undefined && this.resources.length > 0) {
+          return this.resources[index];
+    }
+
 
     set hass(hass) {
         this._hass = hass;
