@@ -1,4 +1,5 @@
 class RVcard extends HTMLElement {
+    _hass
     config;
     content;
 
@@ -9,7 +10,21 @@ class RVcard extends HTMLElement {
         this.config = config;
     }
 
+    _popupCamera(evt) {
+        const event = new Event("hass-more-info", {
+          bubbles: true,
+          composed: true
+        });
+        event.detail = {entityId: this._currentResource().name};
+        this.dispatchEvent(event);
+    }
+
+    _currentResource() {
+        return this._getResource(this.currentResourceIndex);
+      }
+
     set hass(hass) {
+        this._hass = hass;
         const entityId = this.config.entity;
         const state = hass.states[entityId];
         const stateStr = state ? state.state : 'unavailable';
@@ -20,18 +35,9 @@ class RVcard extends HTMLElement {
             this.innerHTML = `
                 <ha-card header="Hello ${hass.user.name}!">
                     <div class="card-content"></div>
-                    <video width="320" height="240" controls>
-                        <source src=${'entity: "camera.192_168_51_109"'} type="video/mp4">
-                    </video>
-
-                    // <video width="320" height="240" controls>
-                    //     <source src="/api/camera_proxy/camera.192_168_51_109" type="video/mp4">
-                    // </video>
-
-                    // <video width="320" height="240" controls>
-                    //     <source src="${this.getStubConfig().entity}" type="video/mp4">
-                    // </video>
-
+                    <hui-image @click="${ev => this._popupCamera(ev)}"
+                    .cameraImage=${this._currentResource().name}>
+                </hui-image>
                 </ha-card>
             `;
             this.content = this.querySelector('div');
