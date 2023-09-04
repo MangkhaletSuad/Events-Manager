@@ -1,0 +1,5 @@
+- sensor:
+    - platform: files
+      folder: /config/www/Event/images
+      name: gallery_images
+      sort: date
