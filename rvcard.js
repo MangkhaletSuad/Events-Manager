@@ -1,5 +1,5 @@
 // import { LitElement, html, css } from 'lit-element';
-<script type="module" src="https://cdn.jsdelivr.net/npm/lit-element@2.5.0/lit-element.js"></script>
+{/* <script type="module" src="https://cdn.jsdelivr.net/npm/lit-element@2.5.0/lit-element.js"></script> */}
 
 class RVcard extends HTMLElement {
     static styles = css`
