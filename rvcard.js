@@ -1,41 +1,32 @@
+import "https://unpkg.com/wired-card@0.8.1/wired-card.js?module";
+import "https://unpkg.com/wired-toggle@0.8.0/wired-toggle.js?module";
+import {
+  LitElement,
+  html,
+  css,
+} from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
+
+function loadCSS(url) {
+    const link = document.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = url;
+    document.head.appendChild(link);
+  }
+
+loadCSS("https://fonts.googleapis.com/css?family=Gloria+Hallelujah");
+
 class RVcard extends HTMLElement {
     _hass
     config;
     content;
+
 
     setConfig(config) {
         if (!config.entity) {
             throw new Error('Please define an entity!');
         }
         this.config = config;
-    }
-
-    _currentResource() {
-        return this._getResource(this.currentResourceIndex);
-    }
-
-    _getResource(index) {
-        if (this.resources !== undefined && index !== undefined && this.resources.length > 0) {
-          return this.resources[index];
-        }
-        else {
-          return {
-            url: "",
-            name: "",
-            extension: "jpg",
-            caption: index === undefined ? "Loading resources..." : "No images or videos to display",
-            index: 0
-          };
-        }
-      }
-
-    _popupCamera(evt) {
-        const event = new Event("hass-more-info", {
-          bubbles: true,
-          composed: true
-        });
-        event.detail = {entityId: this._currentResource().name};
-        this.dispatchEvent(event);
     }
 
     set hass(hass) {
@@ -48,26 +39,31 @@ class RVcard extends HTMLElement {
         if (!this.content) {
             // user makes sense here as every login gets it's own instance
             this.innerHTML = `
-                <ha-card header="Hello ${hass.user.name}!">
-                    <div class="card-content"></div>
-                    <hui-image @click="${ev => this._popupCamera(ev)}"
-                    .cameraImage=${this._currentResource().name}>
+            <ha-card header="Hello user ${hass.user.name}">
+                <div class="card-content"></div>
+                <hui-image img= "/workspaces/core/config/www/Events-Manager/rvc.jpeg">
                 </hui-image>
-                </ha-card>
+            </ha-card>
             `;
+            return {
+                views: [{
+                    "card": [
+                        {
+                            "type": "custom:gallery-card",
+                            "entities":
+                              "- camera.192_168_51_109_2",
+                            "maximum_files": "10",
+                            "menu_alignment": "Responsive"
+                        }
+                    ]
+                }]
+            }
             this.content = this.querySelector('div');
         }
-        // done repeatedly
-        this.content.innerHTML = `
-            <p>The ${entityId} is ${stateStr}.</p>
-            <video width="320" height="240" controls>
-                <source src="${state.attributes.entity_id}" type="application/vnd.apple.mpegurl">
-            </video>
-        `;
     }
-    // static getStubConfig() {
-    //     return { entity: "sun.sun" }
-    // }
+    static getStubConfig() {
+        return { entity: "sun.sun" }
+    }
 }
 
 
