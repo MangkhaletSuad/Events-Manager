@@ -1,6 +1,5 @@
 {
     "name": "rv-card",
-    "content_in_root": false,
     "filename": "rvcard.js",
     "render_readme": true
   }
