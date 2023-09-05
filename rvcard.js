@@ -7,13 +7,13 @@ class RVcard extends HTMLElement{
         <ha-card header="Hello ${hass.user.name}!">
           <div class="card-content">
           <br><br>
-          <img id="cameraImage" src="" alt="Camera Image">
+          <img id="cameraImage" src="${'entity: "camera.192_168_51_109"'}" alt="Camera Image">
           <br><br>
           <video  width="320" height="240" controls>
             <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
           </video> 
           <br><br>
-          <video src="https://your-rtsp-proxy-server:port/stream" controls></video>
+          <video src="rtsp://192.168.51.109:8554/barrier_gate_in" controls></video>
           </div>
         </ha-card>
       `;
