@@ -4,7 +4,7 @@ class RVcard extends HTMLElement{
     // Initialize the content if it's not there yet.
     if (!this.content) {
       this.innerHTML = `
-        <ha-card header="Example-card">
+        <ha-card header="Hello ${hass.user.name}!">
           <div class="card-content">
             <video  width="320" height="240" controls>
               <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
@@ -30,6 +30,11 @@ class RVcard extends HTMLElement{
     }
     this.config = config;
   }
+
+  static getStubConfig() {
+    return { entity: "sun.sun" }
+}
+
   getCardSize() {
     return 3;
   }
