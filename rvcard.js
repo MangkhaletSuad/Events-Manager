@@ -32,13 +32,10 @@ class RVcard extends HTMLElement{
   }
 }
 
-
-
-customElements.define("rv-card", RVcard);
-
 window.customCards = window.customCards || [];
 window.customCards.push({
   type: "rv-card",
   name: "RVcard",
 });
 
+customElements.define("rv-card", RVcard);
