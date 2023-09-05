@@ -6,15 +6,15 @@ class RVcard extends HTMLElement{
       this.innerHTML = `
         <ha-card header="Example-card">
           <div class="card-content">
-            <img src="${[this.cameraEntityImageUrl]}" />
-            <video src="rtsp://192.168.51.109:8554/barrier_gate_in">
+            <video  width="320" height="240" controls>
+              <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
             </video>
           </div>
         </ha-card>
       `;
       this.content = this.querySelector("div");
     }
-    this.cameraEntityImageUrl = hass.states[this.config.camera_entity].attributes.entity_picture;
+    const cameraEntityImageUrl = hass.states[config.camera_entity].attributes.entity_picture;
     const entityId = this.config.entity;
     const state = hass.states[entityId];
     const stateStr = state ? state.state : "unavailable";
