@@ -1,7 +1,6 @@
-// import { LitElement, html, css } from 'lit-element';
-{/* <script type="module" src="https://cdn.jsdelivr.net/npm/lit-element@2.5.0/lit-element.js"></script> */}
+import { html, css, LitElement } from 'lit';
 
-class RVcard extends HTMLElement {
+export class RVcard extends LitElement{
     static styles = css`
     .content {
         overflow: hidden;
@@ -16,15 +15,14 @@ class RVcard extends HTMLElement {
   `;
     render() {
         return html`
-          <ha-card header="Hello user ${hass.user.name}">
-            <img src="[[cameraEntityImageUrl]]" />
+          <ha-card header="Hello user ${this._hass.user.name}">
+            <img src="[[this.cameraEntityImageUrl]]" />
           </ha-card>
         `;
       }
 
       static get properties() {
         return {
-          hass: { type: Object },
           config: { type: Object },
           cameraEntityImageUrl: { type: String },
         };
@@ -41,9 +39,9 @@ class RVcard extends HTMLElement {
         this.config = config;
       }
 
-      set hass(hass) {
-        this.cameraEntityImageUrl = hass.states[this.config.camera_entity].attributes.entity_picture;
-        this._hass = hass;
+      set hass(value) {
+        this.cameraEntityImageUrl = value.states[this.config.camera_entity].attributes.entity_picture;
+        this._hass = value;
       }
     }
 

@@ -1,0 +1,19 @@
+{
+  "source": "rvcard.js",
+  "module": "dist/rvcard.js",
+  "targets": {
+    "module": {
+      "includeNodeModules": true
+    }
+  },
+  "scripts": {
+    "watch": "parcel watch",
+    "build": "parcel build"
+  },
+  "devDependencies": {
+    "parcel": "^2.9.3"
+  },
+  "dependencies": {
+    "lit": "^2.8.0"
+  }
+}
