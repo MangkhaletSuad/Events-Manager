@@ -21,7 +21,7 @@ class RVcard extends HTMLElement{
     this.content.innerHTML = `
       The state of ${entityId} is ${stateStr}!
       <br><br>
-      <img src="http://via.placeholder.com/350x150">
+      <img src="${[this.cameraEntityImageUrl]}">
     `;
   }
   setConfig(config) {
