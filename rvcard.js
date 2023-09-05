@@ -48,15 +48,13 @@ class RVcard extends HTMLElement{
     this.content.innerHTML = `
       The state of ${entityId} is ${stateStr}!
       <br><br>
-        <img id="cameraImage" src="" alt="Camera Image">
-      <br><br>
-      <img src="http://via.placeholder.com/350x150">
+        <img id="cameraImage" src="${'entity: "camera.192_168_51_109"'}" alt="Camera Image">
       <br><br>
       <video  width="320" height="240" controls>
         <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
       </video>
       <br><br>
-      <video src="https://your-rtsp-proxy-server:port/stream" controls></video>
+      <video src="rtsp://192.168.51.109:8554/barrier_gate_in" controls></video>
 
     `;
   }
