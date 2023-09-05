@@ -22,10 +22,10 @@ class RVcard extends HTMLElement{
     `;
   }
   setConfig(config) {
-      if (!config.camera_entity) {
-        throw new Error('Missing camera_entity in card configuration');
-      }
-        this.config = config;
+    if (!config.entity) {
+      throw new Error("You need to define an entity");
+    }
+    this.config = config;
   }
   getCardSize() {
     return 3;
