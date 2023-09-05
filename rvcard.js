@@ -1,41 +1,33 @@
-import { html, css, LitElement } from 'https://unpkg.com/lit-element@2.0.1/lit-element.js?module';
+class RVcard extends HTMLElement{
 
-export class RVcard extends LitElement{
-  static styles = css`
-    ha-card {
-      height: 100%;
-      overflow: hidden;
-    }
-    .content {
-        overflow: hidden;
-      }
-      .content hui-card{
-        max-width: 100%;
-      }
-  `;
-    render() {
-        return html`
-          <ha-card header="Hello ${this._hass.user.name}">
-            <div class="card-content">
-              <div class="hui-card">
-                <img src="[[this.cameraEntityImageUrl]]" />
-              </>
-            </div>
-          </ha-card>
-        `;
-      }
-
-      static get properties() {
-        return {
-          config: { type: Object },
-          cameraEntityImageUrl: { type: String },
-        };
-      }
-
-    static getStubConfig() {
-        return { entity: "sun.sun" }
+  set hass(hass) {
+    // Initialize the content if it's not there yet.
+    if (!this.content) {
+      this.innerHTML = `
+        <ha-card header="Example-card">
+          <div class="card-content"></div>
+        </ha-card>
+      `;
+      this.content = this.querySelector("div");
     }
 
+    const entityId = this.config.entity;
+    const state = hass.states[entityId];
+    const stateStr = state ? state.state : "unavailable";
+
+    this.content.innerHTML = `
+      The state of ${entityId} is ${stateStr}!
+      <br><br>
+      <img src="http://via.placeholder.com/350x150">
+    `;
+  }
+
+      // static get properties() {
+      //   return {
+      //     config: { type: Object },
+      //     cameraEntityImageUrl: { type: String },
+      //   };
+      // }
   setConfig(config) {
       if (!config.camera_entity) {
         throw new Error('Missing camera_entity in card configuration');
@@ -43,13 +35,13 @@ export class RVcard extends LitElement{
         this.config = config;
       }
 
-  set hass(value) {
-    const entityId = this.config.entity;
-    const state = hass.states[entityId];
-    const stateStr = state ? state.state : "unavailable";
-    this.cameraEntityImageUrl = value.states[this.config.camera_entity].attributes.entity_picture;
-    this._hass = value;
-  }
+  // set hass(value) {
+  //   const entityId = this.config.entity;
+  //   const state = hass.states[entityId];
+  //   const stateStr = state ? state.state : "unavailable";
+  //   this.cameraEntityImageUrl = value.states[this.config.camera_entity].attributes.entity_picture;
+  //   this._hass = value;
+  // }
 }
 
 
