@@ -5,12 +5,15 @@ class RVcard extends HTMLElement{
     if (!this.content) {
       this.innerHTML = `
         <ha-card header="Example-card">
-          <div class="card-content"></div>
+          <div class="card-content">
+            <img src="${[this.cameraEntityImageUrl]}" />
+          </div>
         </ha-card>
       `;
       this.content = this.querySelector("div");
     }
-
+    this.cameraEntityImageUrl = hass.states[this.config.camera_entity].attributes.entity_picture;
+    this.hass = hass;
     const entityId = this.config.entity;
     const state = hass.states[entityId];
     const stateStr = state ? state.state : "unavailable";
