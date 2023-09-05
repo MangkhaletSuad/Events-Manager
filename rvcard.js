@@ -7,7 +7,7 @@ class RVcard extends HTMLElement{
         <ha-card header="Hello ${hass.user.name}!">
           <div class="card-content">
           <br><br>
-          <img id="cameraImage" src="${'entity: "camera.192_168_51_109"'}" alt="Camera Image">
+          <img src="${this.selectedCamera.stream_url}" alt="${this.selectedCamera.name}" />
           <br><br>
           <video  width="320" height="240" controls>
             <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
@@ -48,8 +48,6 @@ class RVcard extends HTMLElement{
     this.content.innerHTML = `
       The state of ${entityId} is ${stateStr}!
       <br><br>
-        <img id="cameraImage" src="${'entity: "camera.192_168_51_109"'}" alt="Camera Image">
-      <br><br>
       <video  width="320" height="240" controls>
         <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
       </video>
@@ -66,8 +64,7 @@ class RVcard extends HTMLElement{
   }
 
   static getStubConfig() {
-    return { entity: "sun.sun" },
-           { entity: "camera.192_168_51_109" }
+    return { entity: "camera.192_168_51_109" }
 }
 }
 
