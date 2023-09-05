@@ -15,7 +15,6 @@ class RVcard extends HTMLElement{
       this.content = this.querySelector("div");
     }
     this.cameraEntityImageUrl = hass.states[this.config.camera_entity].attributes.entity_picture;
-    this.hass = hass;
     const entityId = this.config.entity;
     const state = hass.states[entityId];
     const stateStr = state ? state.state : "unavailable";
