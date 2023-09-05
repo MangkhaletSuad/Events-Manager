@@ -96,7 +96,7 @@ export class RVcard extends LitElement{
           url: attributes?.entity_picture,
         };
       });
-      this.updateCameras = this.throttle(() => this._updateCameras(), this.thumbInterval);
+      // this.updateCameras = this.throttle(() => this._updateCameras(), this.thumbInterval);
       this._updateSelectedCamera();
     }
 
@@ -328,32 +328,32 @@ export class RVcard extends LitElement{
       `;
     }
 
-    throttle(callback, delay) {
-      let isThrottled = false,
-        args,
-        context;
+    // throttle(callback, delay) {
+    //   let isThrottled = false,
+    //     args,
+    //     context;
   
-      function wrapper() {
-        if (isThrottled) {
-          args = arguments;
-          context = this;
-          return;
-        }
+    //   function wrapper() {
+    //     if (isThrottled) {
+    //       args = arguments;
+    //       context = this;
+    //       return;
+    //     }
   
-        isThrottled = true;
-        callback.apply(this, arguments);
+    //     isThrottled = true;
+    //     callback.apply(this, arguments);
   
-        setTimeout(() => {
-          isThrottled = false;
-          if (args) {
-            wrapper.apply(context, args);
-            args = context = null;
-          }
-        }, delay);
-      }
+    //     setTimeout(() => {
+    //       isThrottled = false;
+    //       if (args) {
+    //         wrapper.apply(context, args);
+    //         args = context = null;
+    //       }
+    //     }, delay);
+    //   }
   
-      return wrapper;
-    }
+    //   return wrapper;
+    // }
 
   }
 
