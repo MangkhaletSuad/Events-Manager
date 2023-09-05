@@ -21,10 +21,7 @@ class RVcard extends HTMLElement{
     this.content.innerHTML = `
       The state of ${entityId} is ${stateStr}!
       <br><br>
-      <img src="${[this.cameraEntityImageUrl]}">
-      <br><br>
-      <video src="rtsp://192.168.51.109:8554/barrier_gate_in">
-      </video>
+      <img src="http://via.placeholder.com/350x150">
     `;
   }
   setConfig(config) {
