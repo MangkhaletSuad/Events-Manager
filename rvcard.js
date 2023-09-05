@@ -6,6 +6,12 @@ class RVcard extends HTMLElement{
       this.innerHTML = `
         <ha-card header="Hello ${hass.user.name}!">
           <div class="card-content">
+          <br><br>
+          <video  width="320" height="240" controls>
+            <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
+          </video> 
+          <br><br>
+          <video src="https://your-rtsp-proxy-server:port/stream" controls></video>
           </div>
         </ha-card>
       `;
@@ -23,6 +29,9 @@ class RVcard extends HTMLElement{
       <video  width="320" height="240" controls>
         <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
       </video>
+      <br><br>
+      <video src="https://your-rtsp-proxy-server:port/stream" controls></video>
+
     `;
   }
   setConfig(config) {
@@ -33,7 +42,8 @@ class RVcard extends HTMLElement{
   }
 
   static getStubConfig() {
-    return { entity: "sun.sun" }
+    return { entity: "sun.sun" },
+           { entity: "camera.192_168_51_109" }
 }
 
   getCardSize() {
