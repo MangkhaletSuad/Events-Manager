@@ -6,9 +6,6 @@ class RVcard extends HTMLElement{
       this.innerHTML = `
         <ha-card header="Hello ${hass.user.name}!">
           <div class="card-content">
-            <video  width="320" height="240" controls>
-              <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
-            </video>
           </div>
         </ha-card>
       `;
@@ -22,6 +19,10 @@ class RVcard extends HTMLElement{
       The state of ${entityId} is ${stateStr}!
       <br><br>
       <img src="http://via.placeholder.com/350x150">
+      <br><br>
+      <video  width="320" height="240" controls>
+        <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
+      </video>
     `;
   }
   setConfig(config) {
