@@ -1,4 +1,4 @@
-import { html, css, LitElement } from 'lit';
+import { html, css, LitElement } from 'https://unpkg.com/lit-element@2.0.1/lit-element.js?module';
 
 export class RVcard extends LitElement{
   static styles = css`
