@@ -1,22 +1,26 @@
 import { html, css, LitElement } from './node_modules/lit';
 
 export class RVcard extends LitElement{
-    static styles = css`
+  static styles = css`
+    ha-card {
+      height: 100%;
+      overflow: hidden;
+    }
     .content {
         overflow: hidden;
       }
-      .content hui-card-preview {
+      .content hui-card{
         max-width: 100%;
-      }
-      ha-card {
-        height: 100%;
-        overflow: hidden;
       }
   `;
     render() {
         return html`
-          <ha-card header="Hello user ${this._hass.user.name}">
-            <img src="[[this.cameraEntityImageUrl]]" />
+          <ha-card header="Hello ${this._hass.user.name}">
+            <div class="card-content">
+              <div class="hui-card">
+                <img src="[[this.cameraEntityImageUrl]]" />
+              </>
+            </div>
           </ha-card>
         `;
       }
@@ -32,18 +36,21 @@ export class RVcard extends LitElement{
         return { entity: "sun.sun" }
     }
 
-    setConfig(config) {
-        if (!config.camera_entity) {
-          throw new Error('Missing camera_entity in card configuration');
-        }
+  setConfig(config) {
+      if (!config.camera_entity) {
+        throw new Error('Missing camera_entity in card configuration');
+      }
         this.config = config;
       }
 
-      set hass(value) {
-        this.cameraEntityImageUrl = value.states[this.config.camera_entity].attributes.entity_picture;
-        this._hass = value;
-      }
-    }
+  set hass(value) {
+    const entityId = this.config.entity;
+    const state = hass.states[entityId];
+    const stateStr = state ? state.state : "unavailable";
+    this.cameraEntityImageUrl = value.states[this.config.camera_entity].attributes.entity_picture;
+    this._hass = value;
+  }
+}
 
 
 
