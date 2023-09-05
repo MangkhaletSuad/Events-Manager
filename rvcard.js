@@ -1,4 +1,4 @@
-import { html, css, LitElement } from 'lit';
+import { html, css, LitElement } from "https://unpkg.com/lit-element@2.3.1/lit-element.js?module";
 
 export class RVcard extends LitElement{
 
@@ -164,28 +164,6 @@ export class RVcard extends LitElement{
   
         return cameraA.last_update === cameraB.last_update ? 0 : -1;
       }
-    }
-
-    _recordSequence(clickEvent){
-      let currentThumbSnapshotBtn = clickEvent.srcElement.previousElementSibling;
-      let cameraThumbContainer = clickEvent.srcElement.parentElement.previousElementSibling;
-  
-      let totalSnapshots = this.recordingDuration/(this.thumbInterval/1000);
-      let snapshotCount = 1;
-  
-      currentThumbSnapshotBtn.click();
-      cameraThumbContainer.classList.add("recording");
-  
-      let snapshotInterval = setInterval(function(){
-        currentThumbSnapshotBtn.click();
-        snapshotCount++;
-  
-        if (snapshotCount>totalSnapshots) {
-          cameraThumbContainer.classList.remove("recording");
-          clearInterval(snapshotInterval);
-        }
-  
-      }, this.thumbInterval);
     }
 
     static get styles() {
