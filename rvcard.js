@@ -6,6 +6,7 @@ class RVcard extends HTMLElement{
       this.innerHTML = `
         <ha-card header="Hello ${hass.user.name}!">
           <div class="card-content">
+          <img src="http://via.placeholder.com/350x150">
           </div>
         </ha-card>
       `;
@@ -45,8 +46,6 @@ class RVcard extends HTMLElement{
         <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
       </video>
       <br><br>
-      <video src="rtsp://192.168.51.109:8554/barrier_gate_in" controls></video>
-
     `;
   }
   setConfig(config) {
