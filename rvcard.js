@@ -14,7 +14,7 @@ class RVcard extends HTMLElement{
     }
 
     const mqtt = require('mqtt');
-    const url = 'mqtt://192.168.51.101:1883';
+    const url = '192.168.51.101:1883';
     const client = mqtt.connect(url);
 
     function updateHTML(message) {
@@ -44,28 +44,6 @@ class RVcard extends HTMLElement{
     const entityId = this.config.entity;
     const state = hass.states[entityId];
     const stateStr = state ? state.state : "unavailable";
-
-    const cameraImage = document.getElementById('cameraImage');
-
-    // URL ของ entity camera ของคุณ
-    const cameraEntityUrl = 'camera.192_168_51_109'; // แทนด้วย URL ของ entity ของคุณ
-
-    // เรียกข้อมูลภาพจาก entity camera
-    fetch(cameraEntityUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.blob();
-      })
-      .then(blob => {
-        // แสดงภาพบน HTML element
-        cameraImage.src = URL.createObjectURL(blob);
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-      });
-
 
     this.content.innerHTML = `
       <p>The state of ${entityId} is ${stateStr}!</p>
