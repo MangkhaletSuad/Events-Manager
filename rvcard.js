@@ -69,7 +69,7 @@ class RVcard extends HTMLElement{
 
     this.content.innerHTML = `
       <p>The state of ${entityId} is ${stateStr}!</p>
-      <img src="https://media.licdn.com/dms/image/C4E0BAQH2I8Ue-hcNPg/company-logo_200_200/0/1595214160269?e=2147483647&v=beta&t=nn97CU-UmJpfd-WGqS_DqbktgWhgZ4F2qWJB_AK9pig">
+      <img src="http://via.placeholder.com/350x150">
       <br><br>
       <p id="mqtt-message">: No message yet</p>
       <br><br>
@@ -87,7 +87,7 @@ class RVcard extends HTMLElement{
   }
 
   static getStubConfig() {
-    return { entity: "camera.192_168_51_109",  }
+    return { entity: "sun.sun"  }
 }
 }
 
