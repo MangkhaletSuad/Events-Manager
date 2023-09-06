@@ -1,6 +1,7 @@
 class RVcard extends HTMLElement{
 
   set hass(hass) {
+    
     // Initialize the content if it's not there yet.
     if (!this.content) {
       this.innerHTML = `
@@ -13,49 +14,65 @@ class RVcard extends HTMLElement{
       this.content = this.querySelector("div");
     }
 
-    const mqtt = require('mqtt');
-    const options = {
-      host: '192.168.51.101',
-      port: 1883,
-      username: 'rvc',
-      password: 'P@ssw0rd'
-    };
+    clientID = "clientID - "+parseInt(Math.random() * 100);
+        const options = {
+        host: '192.168.51.101',
+        port: 8000,
+        username: 'rvc',
+        password: 'P@ssw0rd'
+        };
 
-    const client = mqtt.connect(options);
+        const client = new Paho.MQTT.Client(options.host,options.port,clientID);
 
-    function updateHTML(message) {
-      // Assuming you have an HTML element with the id "mqtt-message" to display the message
-      const messageElement = document.getElementById('mqtt-message');
-      messageElement.innerHTML = message;
-    }
+        client.onConnectionLost = onConnectionLost;
+        client.onMessageArrived = onMessageArrived;
 
-    client.on('connect', function () {
-      console.log('Connected')
-      // Subscribe to a topic
-      client.subscribe('Test', function (err) {
-        if (!err) {
-          // Publish a message to a topic
-          client.publish('Test', 'Hello mqtt')
+        client.connect({
+            onSuccess: onConnect,
+            userName: "rvc",
+            password: "P@ssw0rd"
+
+        });
+
+        function onConnect(){
+            console.log("onConnect");
+            topic =  "Test";
+
+            document.getElementById("messages").innerHTML += "<span> Subscribing to topic "+topic + "</span><br>";
+
+            client.subscribe(topic);
         }
-      });
-    });
 
-    client.on('message', function (topic, message) {
-      // Handle the received message here
-      console.log(`Received message on topic ${topic}: ${message}`);
-      // Update the HTML content with the received message
-      updateHTML(message.toString());
-    });
+        function onConnectionLost(responseObject){
+            console.log("onConnectionLost");
+            document.getElementById("messages").innerHTML += "<span> ERROR: Connection is lost.</span><br>";
+            if(responseObject !=0){
+                document.getElementById("messages").innerHTML += "<span> ERROR:"+ responseObject.errorMessage +"</span><br>";
+            }
+        }
+
+        function onMessageArrived(message){
+            console.log("onMessageArrived");
+            console.log("OnMessageArrived: "+message.payloadString);
+            document.getElementById("messages").innerHTML += "<span> Topic:"+message.destinationName+"| Message : "+message.payloadString + "</span><br>";
+        }
+
+        function startDisconnect(){
+            console.log("startDisconnect");
+            client.disconnect();
+            document.getElementById("messages").innerHTML += "<span> Disconnected. </span><br>";
+        }
 
     const entityId = this.config.entity;
     const state = hass.states[entityId];
     const stateStr = state ? state.state : "unavailable";
 
     this.content.innerHTML = `
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js" type="text/javascript"></script>
       <p>The state of ${entityId} is ${stateStr}!</p>
       <img src="http://via.placeholder.com/350x150">
       <br><br>
-      <p id="mqtt-message">: No message yet</p>
+      <div id="messages"></div>
       <br><br>
       <video  width="320" height="240" controls>
         <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
