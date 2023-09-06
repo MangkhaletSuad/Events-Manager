@@ -14,8 +14,14 @@ class RVcard extends HTMLElement{
     }
 
     const mqtt = require('mqtt');
-    const url = '192.168.51.101:1883';
-    const client = mqtt.connect(url);
+    const options = {
+      host: '192.168.51.101',
+      port: 1883,
+      username: 'rvc',
+      password: 'P@ssw0rd'
+    };
+
+    const client = mqtt.connect(options);
 
     function updateHTML(message) {
       // Assuming you have an HTML element with the id "mqtt-message" to display the message
