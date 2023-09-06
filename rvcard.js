@@ -12,6 +12,35 @@ class RVcard extends HTMLElement{
       `;
       this.content = this.querySelector("div");
     }
+
+    const mqtt = require('mqtt');
+    const url = 'mqtt://192.168.51.101:1883';
+    const client = mqtt.connect(url);
+
+    function updateHTML(message) {
+      // Assuming you have an HTML element with the id "mqtt-message" to display the message
+      const messageElement = document.getElementById('mqtt-message');
+      messageElement.innerHTML = message;
+    }
+
+    client.on('connect', function () {
+      console.log('Connected')
+      // Subscribe to a topic
+      client.subscribe('Test', function (err) {
+        if (!err) {
+          // Publish a message to a topic
+          client.publish('Test', 'Hello mqtt')
+        }
+      });
+    });
+
+    client.on('message', function (topic, message) {
+      // Handle the received message here
+      console.log(`Received message on topic ${topic}: ${message}`);
+      // Update the HTML content with the received message
+      updateHTML(message.toString());
+    });
+
     const entityId = this.config.entity;
     const state = hass.states[entityId];
     const stateStr = state ? state.state : "unavailable";
@@ -39,8 +68,10 @@ class RVcard extends HTMLElement{
 
 
     this.content.innerHTML = `
-      The state of ${entityId} is ${stateStr}!
-      <img src="http://via.placeholder.com/350x150">
+      <p>The state of ${entityId} is ${stateStr}!</p>
+      <img src="https://media.licdn.com/dms/image/C4E0BAQH2I8Ue-hcNPg/company-logo_200_200/0/1595214160269?e=2147483647&v=beta&t=nn97CU-UmJpfd-WGqS_DqbktgWhgZ4F2qWJB_AK9pig">
+      <br><br>
+      <p id="mqtt-message">: No message yet</p>
       <br><br>
       <video  width="320" height="240" controls>
         <source src="${'entity: "camera.192_168_51_109"'}" type="application/vnd.apple.mpegurl">
