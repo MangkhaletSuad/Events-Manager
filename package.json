@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "mqtt": "^5.0.4"
+    "mqtt": "^5.0.4",
+    "paho-mqtt": "^1.1.0"
   }
 }
