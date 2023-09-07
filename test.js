@@ -47,6 +47,8 @@ class RVcard extends LitElement {
     });
   }
 
+  
+
   render() {
     return html`
       <wired-card elevation="2">
