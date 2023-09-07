@@ -1,4 +1,3 @@
-import Paho from 'paho-mqtt'; 
 class RVcard extends HTMLElement{
   constructor() {
     super();
