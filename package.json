@@ -2,5 +2,8 @@
   "dependencies": {
     "mqtt": "^5.0.4",
     "paho-mqtt": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/paho-mqtt": "^1.0.7"
   }
 }

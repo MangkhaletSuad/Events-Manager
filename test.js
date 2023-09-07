@@ -1,74 +1,93 @@
-function startConnect(){
+import "https://unpkg.com/wired-card@0.8.1/wired-card.js?module";
+import {
+  LitElement,
+  html,
+  css,
+} from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
 
-    clientID = "clientID - "+parseInt(Math.random() * 100);
+function loadCSS(url) {
+  const link = document.createElement("link");
+  link.type = "text/css";
+  link.rel = "stylesheet";
+  link.href = url;
+  document.head.appendChild(link);
+}
 
-    host = document.getElementById("host").value;   
-    port = document.getElementById("port").value;  
-    userId  = document.getElementById("username").value;  
-    passwordId = document.getElementById("password").value;  
+loadCSS("https://fonts.googleapis.com/css?family=Gloria+Hallelujah");
+// loadCSS("path/to/your/test.css"); // Adjust the path to your CSS file
 
-    document.getElementById("messages").innerHTML += "<span> Connecting to " + "192.168.51.101" + "on port " +port+"</span><br>";
-    document.getElementById("messages").innerHTML += "<span> Using the client Id " + clientID +" </span><br>";
+class MQTTClient extends LitElement {
+  static get properties() {
+    return {
+      messages: { type: Array },
+    };
+  }
 
-    client = new Paho.MQTT.Client(host,Number(port),clientID);
-    // client = new Paho.MQTT.Client("192.168.51.101", 1883, "clientID");
-    // client.username_pw_set("rvc", "P@ssw0rd")
-    client.onConnectionLost = onConnectionLost;
-    client.onMessageArrived = onMessageArrived;
+  constructor() {
+    super();
+    this.messages = [];
+    this.clientID = "clientID - " + parseInt(Math.random() * 100);
 
-    client.connect({
-        onSuccess: onConnect,
-        // useSSL: true 
-       userName: "rvc",
-       password: "P@ssw0rd"
+    const options = {
+      host: '192.168.51.101',
+      port: 8000,
+      username: 'rvc',
+      password: 'P@ssw0rd'
+    };
 
+    this.client = new Paho.MQTT.Client(options.host, options.port, this.clientID);
+
+    this.client.onConnectionLost = this.onConnectionLost.bind(this);
+    this.client.onMessageArrived = this.onMessageArrived.bind(this);
+
+    this.client.connect({
+      onSuccess: this.onConnect.bind(this),
+      userName: "rvc",
+      password: "P@ssw0rd"
     });
-    
+  }
 
+  render() {
+    return html`
+      <wired-card elevation="2">
+        ${this.messages.map(message => html`
+          <div>${message}</div>
+        `)}
+      </wired-card>
+    `;
+  }
 
-}
+  onConnect() {
+    console.log("onConnect");
+    this.client.subscribe("Name");
+  }
 
+  onMessageArrived(message) {
+    console.log("onMessageArrived");
+    console.log("OnMessageArrived: " + message.payloadString);
+    this.messages = [...this.messages, `Topic: ${message.destinationName} | Message: ${message.payloadString}`];
+  }
 
-function onConnect(){
-    topic =  document.getElementById("topic_s").value;
-
-    document.getElementById("messages").innerHTML += "<span> Subscribing to topic "+topic + "</span><br>";
-
-    client.subscribe(topic);
-}
-
-
-
-function onConnectionLost(responseObject){
-    document.getElementById("messages").innerHTML += "<span> ERROR: Connection is lost.</span><br>";
-    if(responseObject !=0){
-        document.getElementById("messages").innerHTML += "<span> ERROR:"+ responseObject.errorMessage +"</span><br>";
+  onConnectionLost(responseObject) {
+    console.log("onConnectionLost");
+    if (responseObject.errorCode !== 0) {
+      this.messages = [...this.messages, `ERROR: ${responseObject.errorMessage}`];
     }
+  }
+
+  static get styles() {
+    return css`
+      :host {
+        font-family: "Gloria Hallelujah", cursive;
+      }
+      wired-card {
+        background-color: white;
+        padding: 16px;
+        display: block;
+        font-size: 18px;
+      }
+    `;
+  }
 }
 
-function onMessageArrived(message){
-    console.log("OnMessageArrived: "+message.payloadString);
-    document.getElementById("messages").innerHTML += "<span> Topic:"+message.destinationName+"| Message : "+message.payloadString + "</span><br>";
-}
-
-function startDisconnect(){
-    client.disconnect();
-    document.getElementById("messages").innerHTML += "<span> Disconnected. </span><br>";
-
-
-
-
-}
-
-function publishMessage(){
-msg = document.getElementById("Message").value;
-topic = document.getElementById("topic_p").value;
-
-Message = new Paho.MQTT.Message(msg);
-Message.destinationName = topic;
-
-client.send(Message);
-document.getElementById("messages").innerHTML += "<span> Message to topic "+topic+" is sent </span><br>";
-
-
-}
+customElements.define("mqtt-client", MQTTClient);
