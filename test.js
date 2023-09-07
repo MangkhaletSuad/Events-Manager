@@ -16,7 +16,7 @@ function loadCSS(url) {
 loadCSS("https://fonts.googleapis.com/css?family=Gloria+Hallelujah");
 // loadCSS("path/to/your/test.css"); // Adjust the path to your CSS file
 
-class MQTTClient extends LitElement {
+class RVcard extends LitElement {
   static get properties() {
     return {
       messages: { type: Array },
@@ -90,4 +90,10 @@ class MQTTClient extends LitElement {
   }
 }
 
-customElements.define("mqtt-client", MQTTClient);
+window.customCards = window.customCards || [];
+window.customCards.push({
+  type: "rv-card",
+  name: "RVcard",
+});
+
+customElements.define("rv-card", RVcard);
