@@ -1,4 +1,8 @@
 class RVcard extends HTMLElement{
+  constructor() {
+    super();
+    this.clientID = "clientID - " + parseInt(Math.random() * 100);
+  }
 
   set hass(hass) {
     
@@ -13,36 +17,34 @@ class RVcard extends HTMLElement{
       `;
       this.content = this.querySelector("div");
     }
-
-    clientID = "clientID - "+parseInt(Math.random() * 100);
-        const options = {
+      const options = {
         host: '192.168.51.101',
         port: 8000,
         username: 'rvc',
         password: 'P@ssw0rd'
-        };
+      };
 
-        const client = new Paho.MQTT.Client(options.host,options.port,clientID);
+      const client = new Paho.MQTT.Client(options.host,options.port,this.clientID);
 
-        client.onConnectionLost = onConnectionLost;
-        client.onMessageArrived = onMessageArrived;
+      client.onConnectionLost = onConnectionLost;
+      client.onMessageArrived = onMessageArrived;
 
-        client.connect({
-          onSuccess: function () {
-            onConnect(); 
-            onConnectTime();
-            onConnectPosition();
-          },
-            userName: "rvc",
-            password: "P@ssw0rd"
+      client.connect({
+        onSuccess: function () {
+          onConnect();
+          onConnectTime();
+          onConnectPosition();
+        },
+        userName: "rvc",
+        password: "P@ssw0rd"
 
-        });
+      });
 
-        function onConnect(){
-          console.log("onConnect");
-          topic =  "Name";
-          // document.getElementById("messages").innerHTML += "<span> Subscribing to topic "+topic + "</span><br>";
-          client.subscribe(topic);
+      function onConnect(){
+        console.log("onConnect");
+        topic =  "Name";
+        // document.getElementById("messages").innerHTML += "<span> Subscribing to topic "+topic + "</span><br>";
+        client.subscribe(topic);
       }
 
       function onMessageArrived(message){
