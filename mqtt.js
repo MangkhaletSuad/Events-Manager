@@ -1,26 +1,38 @@
-clientID = "clientID - "+parseInt(Math.random() * 100);
-        const options = {
-        host: '192.168.51.101',
-        port: 8000,
-        username: 'rvc',
-        password: 'P@ssw0rd'
-        };
+// clientID = "clientID - "+parseInt(Math.random() * 100);
+//         const options = {
+//         host: '192.168.51.101',
+//         port: 8000,
+//         username: 'rvc',
+//         password: 'P@ssw0rd'
+//     };
 
-        const client = new Paho.MQTT.Client(options.host,options.port,clientID);
+// const client = new Paho.MQTT.Client(options.host,options.port,clientID);
 
-        client.onConnectionLost = onConnectionLost;
-        client.onMessageArrived = onMessageArrived;
+const mqtt = require('mqtt');
+const url = '192.168.51.101'
+const options = {
+    port: 8000,
+    clean: true,
+    connectTimeout: 4000,
+    clientId: 'emqx_test',
+    username: 'rvc',
+    password: 'P@ssw0rd',
+  }
 
-        client.connect({
-            onSuccess: function () {
-                onConnect(); 
-                onConnectTime();
-                onConnectPosition();
-            },
-            userName: "rvc",
-            password: "P@ssw0rd"
+const client  = mqtt.connect(url, options)
 
-        });
+client.onConnectionLost = onConnectionLost;
+client.onMessageArrived = onMessageArrived;
+
+client.connect({
+    onSuccess: function () {
+    onConnect();
+    onConnectTime();
+    onConnectPosition();
+  },
+  userName: "rvc",
+  password: "P@ssw0rd"
+});
 
         function onConnect(){
             console.log("onConnect");

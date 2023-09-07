@@ -1,10 +1,5 @@
-class RVcard extends HTMLElement{
-  constructor() {
-    super();
-    this.clientID = "clientID - " + parseInt(Math.random() * 100);
-    this.client = null;
-  }
 
+class RVcard extends HTMLElement{
   set hass(hass) {
     
     // Initialize the content if it's not there yet.
@@ -25,8 +20,7 @@ class RVcard extends HTMLElement{
 
     this.content.innerHTML = `
     <head>
-    <script src="./paho.javascript-1.0.3/paho-mqtt-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js" type="text/javascript"></script>
+    <script src="<https://unpkg.com/mqtt/dist/mqtt.min.js>"></script>
     <script src="mqtt.js"></script>
     </head>
     <body>
